@@ -987,13 +987,13 @@ class Selector {
         return end_prom.get_future();
     }
 #ifdef ENABLE_TCOMM_PROFILING
-  void print_profiling(char *prefix="") {
-      printf("%s [PE%d] T_inside_finish (start - done): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), t_inside_finish);
-      printf("%s [PE%d] T_wait (done - finish): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), t_wait);
-      printf("%s [PE%d] T_outside_finish (start - finish): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), t_outside_finish);
-      printf("%s [PE%d] T_sends (count=%d): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), send_count, t_send);
-      printf("%s [PE%d] T_send_in_process (count=%d): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), send_in_process_count, t_send_in_process);
-      printf("%s [PE%d] T_process (count=%d): %" PRIu64 " cycles\n", prefix, shmem_my_pe(), recv_count, t_process);
+  void print_profiling() {
+      printf("[TCOMM PROFILER] [PE%d] T_inside_finish (start - done): %" PRIu64 " cycles\n", shmem_my_pe(), t_inside_finish);
+      printf("[TCOMM PROFILER] [PE%d] T_wait (done - finish): %" PRIu64 " cycles\n", shmem_my_pe(), t_wait);
+      printf("[TCOMM PROFILER] [PE%d] T_outside_finish (start - finish): %" PRIu64 " cycles\n", shmem_my_pe(), t_outside_finish);
+      printf("[TCOMM PROFILER] [PE%d] T_sends (count=%d): %" PRIu64 " cycles\n", shmem_my_pe(), send_count, t_send);
+      printf("[TCOMM PROFILER] [PE%d] T_send_in_process (count=%d): %" PRIu64 " cycles\n", shmem_my_pe(), send_in_process_count, t_send_in_process);
+      printf("[TCOMM PROFILER] [PE%d] T_process (count=%d): %" PRIu64 " cycles\n", shmem_my_pe(), recv_count, t_process);
 
       uint64_t T_MAIN = t_inside_finish - t_send;
       uint64_t T_PROC = t_process - t_send_in_process;
@@ -1004,11 +1004,11 @@ class Selector {
       // Sanity Check
       if (((t_outside_finish >= T_TOTAL) && (t_outside_finish - T_TOTAL > 0.01 * t_outside_finish))
           || ((t_outside_finish < T_TOTAL) && (T_TOTAL - t_outside_finish > 0.01 * t_outside_finish))) {
-          printf("%s [PE%d] T_TOTAL would be much bigger/smaller than T_finish\n", prefix, shmem_my_pe());
+          printf("[TCOMM PROFILER] [PE%d] T_TOTAL would be much bigger/smaller than T_finish\n", shmem_my_pe());
       }
 
-      printf("%s [PE%d] TCOMM_PROFILING (T_MAIN, T_COMM, T_PROC, T_TOTAL), %" PRIu64 ", %" PRIu64 ", %" PRIu64 ", %" PRIu64 "\n", prefix, shmem_my_pe(), T_MAIN, T_COMM, T_PROC, T_TOTAL);
-      printf("%s [PE%d] TCOMM_PROFILING (T_MAIN/T_TOTAL, T_COMM/T_TOTAL, T_PROC/T_TOTAL), %lf, %lf, %lf\n", prefix, shmem_my_pe(), (double)T_MAIN/(double)T_TOTAL, (double)T_COMM/(double)T_TOTAL, (double)T_PROC/(double)T_TOTAL);
+      printf("[TCOMM PROFILER] [PE%d] TCOMM_PROFILING (T_MAIN, T_COMM, T_PROC, T_TOTAL), %" PRIu64 ", %" PRIu64 ", %" PRIu64 ", %" PRIu64 "\n", shmem_my_pe(), T_MAIN, T_COMM, T_PROC, T_TOTAL);
+      printf("[TCOMM PROFILER] [PE%d] TCOMM_PROFILING (T_MAIN/T_TOTAL, T_COMM/T_TOTAL, T_PROC/T_TOTAL), %lf, %lf, %lf\n", shmem_my_pe(), (double)T_MAIN/(double)T_TOTAL, (double)T_COMM/(double)T_TOTAL, (double)T_PROC/(double)T_TOTAL);
   }
 #endif
 };
