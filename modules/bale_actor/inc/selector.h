@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cinttypes>
 #include "safe_buffer.h"
 #include "hclib_bale_actor.h"
 extern "C" {
